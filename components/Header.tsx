@@ -55,7 +55,7 @@ export default function Header() {
                   {series.map((s) => (
                     <a
                       key={s.id}
-                      href={`/works?series=${s.id}`}
+                      href={`/works#${s.id}`}
                       className="block font-body text-sm tracking-[0.1em] text-gallery-muted py-1.5 hover:text-gallery-text transition-colors"
                     >
                       {s.title}
@@ -142,7 +142,7 @@ export default function Header() {
                 {series.map((s) => (
                   <a
                     key={s.id}
-                    href={`/works?series=${s.id}`}
+                    href={`/works#${s.id}`}
                     onClick={() => setOpen(false)}
                     tabIndex={open ? 0 : -1}
                     className="font-body text-base tracking-[0.1em] text-gallery-muted hover:text-gallery-text transition-colors"

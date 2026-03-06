@@ -2,10 +2,25 @@ export interface Artwork {
   id: string;
   src: string;
   title?: string;
+  year?: string;
   medium?: string;
   dimensions?: string;
   dimensionsCm?: string;
   description?: string;
+}
+
+/** Find an artwork by ID across all series, returning both the work and its parent series */
+export function findArtwork(id: string): { work: Artwork; series: Series } | null {
+  for (const s of series) {
+    const work = s.works.find((w) => w.id === id);
+    if (work) return { work, series: s };
+  }
+  return null;
+}
+
+/** Get all artwork IDs for static generation */
+export function getAllArtworkIds(): string[] {
+  return series.flatMap((s) => s.works.map((w) => w.id));
 }
 
 export interface Series {
@@ -28,11 +43,11 @@ export const series: Series[] = [
     year: "2024 – 2025",
     description: "Exploración de la tensión entre lo orgánico y lo geométrico. Capas superpuestas de color construyen atmósferas que oscilan entre la calma y la inquietud, buscando ese punto donde la materia deja de ser superficie y empieza a ser presencia.",
     works: [
-      { id: "s1-01", src: "/works/serie-1/01.jpg", title: "Obra I", medium: "Óleo sobre tela", dimensions: "100 x 80 cm", description: "Exploración de la tensión entre lo orgánico y lo geométrico. Capas superpuestas de color construyen una atmósfera que oscila entre la calma y la inquietud." },
-      { id: "s1-02", src: "/works/serie-1/02.jpg", title: "Obra II", medium: "Óleo sobre tela", dimensions: "120 x 90 cm", description: "La luz como protagonista. Un estudio sobre cómo la luminosidad transforma la percepción del espacio y la materia." },
-      { id: "s1-03", src: "/works/serie-1/03.jpg", title: "Obra III", medium: "Óleo sobre tela", dimensions: "80 x 60 cm" },
-      { id: "s1-04", src: "/works/serie-1/04.jpg", title: "Obra IV", medium: "Técnica mixta", dimensions: "100 x 100 cm", description: "Fragmentos de memoria reconstruidos a través de la materia. La superficie guarda el registro del gesto y el tiempo." },
-      { id: "s1-05", src: "/works/serie-1/05.jpg", title: "Obra V", medium: "Óleo sobre tela", dimensions: "90 x 70 cm" },
+      { id: "s1-01", src: "/works/serie-1/01.jpg", title: "Obra I", year: "2025", medium: "Óleo sobre tela", dimensions: "100 x 80 cm", description: "Exploración de la tensión entre lo orgánico y lo geométrico. Capas superpuestas de color construyen una atmósfera que oscila entre la calma y la inquietud." },
+      { id: "s1-02", src: "/works/serie-1/02.jpg", title: "Obra II", year: "2024", medium: "Óleo sobre tela", dimensions: "120 x 90 cm", description: "La luz como protagonista. Un estudio sobre cómo la luminosidad transforma la percepción del espacio y la materia." },
+      { id: "s1-03", src: "/works/serie-1/03.jpg", title: "Obra III", year: "2024", medium: "Óleo sobre tela", dimensions: "80 x 60 cm" },
+      { id: "s1-04", src: "/works/serie-1/04.jpg", title: "Obra IV", year: "2024", medium: "Técnica mixta", dimensions: "100 x 100 cm", description: "Fragmentos de memoria reconstruidos a través de la materia. La superficie guarda el registro del gesto y el tiempo." },
+      { id: "s1-05", src: "/works/serie-1/05.jpg", title: "Obra V", year: "2024", medium: "Óleo sobre tela", dimensions: "90 x 70 cm" },
     ],
   },
   {

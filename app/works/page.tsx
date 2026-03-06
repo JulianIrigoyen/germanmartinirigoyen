@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import Header from "@/components/Header";
-import WorksPageClient from "@/components/WorksPageClient";
+import SeriesSection from "@/components/SeriesSection";
 import InquiryCTA from "@/components/InquiryCTA";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -16,12 +15,12 @@ export default function WorksPage() {
   return (
     <>
       <Header />
-      <main>
-        <Suspense fallback={null}>
-          <WorksPageClient allSeries={series} />
-        </Suspense>
-        <InquiryCTA />
+      <main className="max-w-[900px] mx-auto px-6 lg:px-12 py-12 lg:py-20 space-y-24">
+        {series.map((s) => (
+          <SeriesSection key={s.id} series={s} />
+        ))}
       </main>
+      <InquiryCTA />
       <Footer />
       <WhatsAppButton />
     </>
