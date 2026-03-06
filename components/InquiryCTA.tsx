@@ -15,7 +15,7 @@ export default function InquiryCTA() {
         <p className="font-body text-base text-white/70 max-w-lg mx-auto">
           Para consultas sobre adquisición de obras, contactame por{" "}
           <a
-            href="https://wa.me/5491100000000"
+            href="https://wa.me/5491136586777"
             target="_blank"
             rel="noopener noreferrer"
             className="text-white underline underline-offset-4 hover:text-white/80 transition-colors"

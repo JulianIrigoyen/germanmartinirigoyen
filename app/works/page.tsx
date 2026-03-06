@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Header from "@/components/Header";
-import SeriesViewer from "@/components/SeriesViewer";
+import WorksPageClient from "@/components/WorksPageClient";
 import InquiryCTA from "@/components/InquiryCTA";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -16,9 +17,9 @@ export default function WorksPage() {
     <>
       <Header />
       <main>
-        {series.map((s) => (
-          <SeriesViewer key={s.id} series={s} />
-        ))}
+        <Suspense fallback={null}>
+          <WorksPageClient allSeries={series} />
+        </Suspense>
         <InquiryCTA />
       </main>
       <Footer />

@@ -1,18 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X, Instagram } from "lucide-react";
+import { Menu, X, Instagram, ChevronDown } from "lucide-react";
 import clsx from "clsx";
+import { series } from "@/data/works";
 
-const links = [
+const navLinks = [
   { label: "Inicio", href: "/" },
-  { label: "Obras", href: "/works" },
   { label: "Exposiciones", href: "/exhibitions" },
   { label: "Sobre mí", href: "/about" },
 ];
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [obrasOpen, setObrasOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 bg-gallery-bg">
@@ -25,15 +26,51 @@ export default function Header() {
 
           {/* Desktop nav */}
           <nav aria-label="Navegación principal" className="hidden md:flex items-center gap-10">
-            {links.map((link) => (
+            <a href="/" className="font-body text-sm tracking-[0.15em] text-gallery-text hover:underline underline-offset-4 transition-colors">
+              Inicio
+            </a>
+
+            {/* Obras with dropdown */}
+            <div className="relative group">
               <a
-                key={link.href}
-                href={link.href}
-                className="font-body text-sm tracking-[0.15em] text-gallery-text hover:underline underline-offset-4 transition-colors"
+                href="/works"
+                className="font-body text-sm tracking-[0.15em] text-gallery-text hover:underline underline-offset-4 transition-colors inline-flex items-center gap-1"
               >
-                {link.label}
+                Obras
+                <ChevronDown
+                  size={12}
+                  strokeWidth={1.5}
+                  aria-hidden="true"
+                  className="group-hover:rotate-180 transition-transform duration-200"
+                />
               </a>
-            ))}
+              <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                <div className="bg-gallery-bg border border-gallery-border py-3 px-5 min-w-[160px] shadow-sm">
+                  <a
+                    href="/works"
+                    className="block font-body text-sm tracking-[0.1em] text-gallery-text py-1.5 hover:text-gallery-muted transition-colors"
+                  >
+                    Todos
+                  </a>
+                  {series.map((s) => (
+                    <a
+                      key={s.id}
+                      href={`/works?series=${s.id}`}
+                      className="block font-body text-sm tracking-[0.1em] text-gallery-muted py-1.5 hover:text-gallery-text transition-colors"
+                    >
+                      {s.title}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <a href="/exhibitions" className="font-body text-sm tracking-[0.15em] text-gallery-text hover:underline underline-offset-4 transition-colors">
+              Exposiciones
+            </a>
+            <a href="/about" className="font-body text-sm tracking-[0.15em] text-gallery-text hover:underline underline-offset-4 transition-colors">
+              Sobre mí
+            </a>
             <a
               href="https://instagram.com/"
               target="_blank"
@@ -68,7 +105,56 @@ export default function Header() {
         )}
       >
         <nav aria-label="Navegación móvil" className="flex flex-col items-center gap-8 pt-16">
-          {links.map((link) => (
+          <a
+            href="/"
+            onClick={() => setOpen(false)}
+            tabIndex={open ? 0 : -1}
+            className="font-body text-lg tracking-[0.15em] text-gallery-text hover:underline underline-offset-4"
+          >
+            Inicio
+          </a>
+
+          {/* Obras accordion */}
+          <div className="flex flex-col items-center">
+            <button
+              onClick={() => setObrasOpen((o) => !o)}
+              tabIndex={open ? 0 : -1}
+              className="font-body text-lg tracking-[0.15em] text-gallery-text inline-flex items-center gap-2"
+            >
+              Obras
+              <ChevronDown
+                size={14}
+                strokeWidth={1.5}
+                aria-hidden="true"
+                className={clsx("transition-transform duration-200", obrasOpen && "rotate-180")}
+              />
+            </button>
+            {obrasOpen && (
+              <div className="flex flex-col items-center gap-3 mt-4">
+                <a
+                  href="/works"
+                  onClick={() => setOpen(false)}
+                  tabIndex={open ? 0 : -1}
+                  className="font-body text-base tracking-[0.1em] text-gallery-muted hover:text-gallery-text transition-colors"
+                >
+                  Todos
+                </a>
+                {series.map((s) => (
+                  <a
+                    key={s.id}
+                    href={`/works?series=${s.id}`}
+                    onClick={() => setOpen(false)}
+                    tabIndex={open ? 0 : -1}
+                    className="font-body text-base tracking-[0.1em] text-gallery-muted hover:text-gallery-text transition-colors"
+                  >
+                    {s.title}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {navLinks.slice(1).map((link) => (
             <a
               key={link.href}
               href={link.href}
@@ -79,6 +165,7 @@ export default function Header() {
               {link.label}
             </a>
           ))}
+
           <a
             href="https://instagram.com/"
             target="_blank"
